@@ -20,23 +20,24 @@
             font-size: 18px;
             margin-top: 20px;
             border: 2px solid #00796b;
-            cursor: move; /* ドラッグできることを示すカーソル */
+            cursor: move;
         }
         .bookmarklet-btn:hover { background-color: #00796b; }
         .note { font-size: 0.9em; color: #666; margin-top: 30px; }
+        textarea { width: 100%; height: 100px; margin-top: 10px; font-size: 0.8em; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>Mission CSV Exporter</h1>
-    <p>Ingressのミッション作成画面から、ミッション一覧をCSV形式でダウンロードするツールです。</p>
+    <p>Ingressのミッション作成画面から、ミッション一覧をCSV形式でダウンロードするツールです。<br>（CSP回避・フル埋め込み版）</p>
     
     <p>下のボタンを、ブラウザの<strong>ブックマークバー</strong>に<br>ドラッグ＆ドロップしてください。</p>
 
-    <a href="javascript:(function(){var url='https://gist.githubusercontent.com/reirei0000/b7be27933298004546b2c5ca298ea066/raw/ingress-mission-export.js';var s=document.createElement('script');s.src=url+'?t='+Date.now();document.body.appendChild(s);})();" 
+    <a href="javascript:(function(){let rows=document.querySelectorAll('.mission');if(rows.length===0){alert('ミッションが見つかりません。「My Missions」画面で実行してください。');return;}let missions={};rows.forEach(row=>{let nameEl=row.querySelector('[class*=%22mission-title-%22]');let name=nameEl?nameEl.innerText.trim():%22Unknown%22;let timeEl=row.querySelector('[class*=%22mission-time-%22]');let statusRaw=timeEl?timeEl.innerText.trim():%22%22;let status=statusRaw.split(' ')[0].toUpperCase();let dateInfo=statusRaw.replace(status,'').trim();let typeEl=row.querySelector('.mission-type > span');let type=typeEl?typeEl.innerText.trim():%22-%22;let timeIcon=row.querySelector('.time-icon');let timeVal=timeIcon?timeIcon.nextElementSibling.innerText.trim():%22-%22;let likedIcon=row.querySelector('.liked-icon');let ratingVal=likedIcon?likedIcon.nextElementSibling.innerText.trim():%22-%22;let agentsIcon=row.querySelector('.agents-icon');let completionsStr=agentsIcon?agentsIcon.nextElementSibling.innerText.trim().replace(/,/g,''):%220%22;let completions=parseInt(completionsStr)||0;if(!missions[name]){missions[name]={name,completions,rating:ratingVal,time:timeVal,type,status,date:dateInfo};}else{let prev=missions[name];if(completions>prev.completions){missions[name]={name,completions,rating:ratingVal,time:timeVal,type,status,date:dateInfo};}else if((prev.rating===%22-%22||prev.rating===%22%22)&&ratingVal!==%22-%22&&ratingVal!==%22%22){missions[name]={name,completions,rating:ratingVal,time:timeVal,type,status,date:dateInfo};}}});let csv=%22Mission Name,Completions,Rating,Median Time,Type,Status,Date info\n%22;let count=0;for(let key in missions){let m=missions[key];let safeName=m.name.replace(/%22/g,'%22%22');csv+=`%22${safeName}%22,${m.completions},%22${m.rating}%22,%22${m.time}%22,%22${m.type}%22,%22${m.status}%22,%22${m.date}%22\n`;count++;}if(count===0){alert('データが取得できませんでした。');return;}let bom=new Uint8Array([0xEF,0xBB,0xBF]);let blob=new Blob([bom,csv],{type:'text/csv'});let link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='ingress_missions_'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(link);link.click();document.body.removeChild(link);})();" 
        class="bookmarklet-btn" onclick="return false;">
-       📥 CSV Export
+       📥 CSV Export (v2)
     </a>
 
     <div class="note">
