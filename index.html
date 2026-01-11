@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingress Mission CSV Exporter</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background-color: #f0f0f0; }
+        .container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
+        h1 { color: #009688; }
+        p { line-height: 1.6; color: #333; }
+        .bookmarklet-btn {
+            display: inline-block;
+            background-color: #009688;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+            border: 2px solid #00796b;
+            cursor: move; /* ドラッグできることを示すカーソル */
+        }
+        .bookmarklet-btn:hover { background-color: #00796b; }
+        .note { font-size: 0.9em; color: #666; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mission CSV Exporter</h1>
+    <p>Ingressのミッション作成画面から、ミッション一覧をCSV形式でダウンロードするツールです。</p>
+    
+    <p>下のボタンを、ブラウザの<strong>ブックマークバー</strong>に<br>ドラッグ＆ドロップしてください。</p>
+
+    <a href="javascript:(function(){var url='https://gist.githubusercontent.com/reirei0000/b7be27933298004546b2c5ca298ea066/raw/403f6e9346a27ef7c189cc9016530ed1fb348e5e/ingress-mission-export.js';var s=document.createElement('script');s.src=url+'?t='+Date.now();document.body.appendChild(s);})();" 
+       class="bookmarklet-btn" onclick="return false;">
+       📥 CSV Export
+    </a>
+
+    <div class="note">
+        <p>使い方：<br>Ingress Mission Authoring Tool の「My Missions」画面を開き、登録したブックマークをクリックしてください。</p>
+    </div>
+</div>
+
+</body>
+</html>
